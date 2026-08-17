@@ -31,7 +31,7 @@
   video.setAttribute("muted", "");
   video.setAttribute("playsinline", "");
   video.setAttribute("preload", "none");
-  video.setAttribute("aria-label", "Loft gathering walkthrough video");
+  video.setAttribute("aria-label", "Project video");
 
   var closeButton = document.createElement("button");
   closeButton.className = "video-lightbox-close";
@@ -52,7 +52,9 @@
       return;
     }
     returnFocus = link;
-    title.textContent = link.getAttribute("data-video-title") || "Project video";
+    var videoTitle = link.getAttribute("data-video-title") || "Project video";
+    title.textContent = videoTitle;
+    video.setAttribute("aria-label", videoTitle + " video");
     video.poster = new URL(link.getAttribute("data-video-poster"), window.location.href).href;
     video.src = new URL(link.getAttribute("data-video-src"), window.location.href).href;
     overlay.hidden = false;
