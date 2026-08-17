@@ -24,11 +24,13 @@
   var video = document.createElement("video");
   video.className = "video-lightbox-video";
   video.controls = true;
-  video.muted = true;
-  video.defaultMuted = true;
+  video.muted = false;
+  video.defaultMuted = false;
+  video.defaultPlaybackRate = 1.0;
+  video.playbackRate = 1.0;
+  video.loop = false;
   video.playsInline = true;
   video.preload = "none";
-  video.setAttribute("muted", "");
   video.setAttribute("playsinline", "");
   video.setAttribute("preload", "none");
   video.setAttribute("aria-label", "Project video");
@@ -57,6 +59,11 @@
     video.setAttribute("aria-label", videoTitle + " video");
     video.poster = new URL(link.getAttribute("data-video-poster"), window.location.href).href;
     video.src = new URL(link.getAttribute("data-video-src"), window.location.href).href;
+    video.muted = false;
+    video.defaultMuted = false;
+    video.defaultPlaybackRate = 1.0;
+    video.playbackRate = 1.0;
+    video.loop = false;
     overlay.hidden = false;
     document.body.classList.add("lightbox-open");
     video.load();
@@ -76,6 +83,7 @@
       return;
     }
     video.pause();
+    video.currentTime = 0;
     video.removeAttribute("src");
     video.load();
     overlay.hidden = true;
