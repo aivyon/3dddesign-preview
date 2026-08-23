@@ -378,7 +378,19 @@ body.lightbox-open {
   display: grid;
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
+  grid-template-columns: 72px minmax(0, 1fr) 72px;
+  align-items: stretch;
+}
+
+.image-lightbox-media {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 0;
   overflow: auto;
+  grid-column: 2;
+  grid-row: 1;
   place-items: center;
   scrollbar-color: #777777 #111111;
   touch-action: pan-y pinch-zoom;
@@ -409,7 +421,7 @@ body.lightbox-open {
   opacity: 0;
 }
 
-.image-lightbox-dialog[data-view-mode="actual"] .image-lightbox-stage {
+.image-lightbox-dialog[data-view-mode="actual"] .image-lightbox-media {
   display: block;
   text-align: center;
 }
@@ -445,10 +457,11 @@ body.lightbox-open {
 
 .image-lightbox-previous,
 .image-lightbox-next {
-  position: sticky;
+  position: relative;
   z-index: 4;
-  top: calc(50% - 34px);
-  grid-area: 1 / 1;
+  grid-row: 1;
+  align-self: center;
+  justify-self: center;
   width: 54px;
   min-width: 54px;
   height: 68px;
@@ -460,13 +473,11 @@ body.lightbox-open {
 }
 
 .image-lightbox-previous {
-  justify-self: start;
-  margin-left: 8px;
+  grid-column: 1;
 }
 
 .image-lightbox-next {
-  justify-self: end;
-  margin-right: 8px;
+  grid-column: 3;
 }
 
 .image-lightbox-fit[aria-pressed="true"],
@@ -859,6 +870,17 @@ body.lightbox-open {
     height: 100%;
   }
 
+  .image-lightbox-stage {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 6px 8px;
+  }
+
+  .image-lightbox-media {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
   .image-lightbox-header {
     min-height: 50px;
     padding: 2px 72px 5px 2px;
@@ -899,19 +921,23 @@ body.lightbox-open {
 
   .image-lightbox-previous,
   .image-lightbox-next {
-    width: 48px;
+    grid-row: 2;
+    width: min(132px, 100%);
     min-width: 48px;
-    height: 72px;
+    height: 44px;
     padding: 0;
+    background: #181818;
     font-size: 44px;
   }
 
   .image-lightbox-previous {
-    margin-left: 2px;
+    grid-column: 1;
+    justify-self: end;
   }
 
   .image-lightbox-next {
-    margin-right: 2px;
+    grid-column: 2;
+    justify-self: start;
   }
 
   .video-lightbox {

@@ -95,6 +95,9 @@
   stage.className = "image-lightbox-stage";
   stage.setAttribute("aria-label", "Project image");
 
+  var mediaViewport = document.createElement("div");
+  mediaViewport.className = "image-lightbox-media";
+
   function makeButton(className, label, accessibleLabel) {
     var button = document.createElement("button");
     button.className = "image-lightbox-control " + className;
@@ -109,6 +112,7 @@
   previousButton.setAttribute("title", "Previous image");
   nextButton.setAttribute("title", "Next image");
   stage.appendChild(previousButton);
+  stage.appendChild(mediaViewport);
   stage.appendChild(nextButton);
 
   var controls = document.createElement("div");
@@ -223,8 +227,8 @@
 
     var scale = 1;
     if (!actual) {
-      var availableWidth = Math.max(1, stage.clientWidth);
-      var availableHeight = Math.max(1, stage.clientHeight);
+      var availableWidth = Math.max(1, mediaViewport.clientWidth);
+      var availableHeight = Math.max(1, mediaViewport.clientHeight);
       var maximumScale = item.sourceKind === "lanczos-2x" ? 1 : 2;
       scale = Math.min(availableWidth / width, availableHeight / height, maximumScale);
     }
@@ -261,7 +265,7 @@
       oldImage.classList.remove("image-lightbox-image-current");
     }
     currentImage = nextImage;
-    stage.appendChild(nextImage);
+    mediaViewport.appendChild(nextImage);
     updateSourceMetadata(item, actual);
 
     nextImage.addEventListener("load", function () {
@@ -319,8 +323,8 @@
     dialog.setAttribute("data-view-mode", actual ? "actual" : "fit");
     fitButton.setAttribute("aria-pressed", String(!actual));
     actualButton.setAttribute("aria-pressed", String(actual));
-    stage.scrollTop = 0;
-    stage.scrollLeft = 0;
+    mediaViewport.scrollTop = 0;
+    mediaViewport.scrollLeft = 0;
     if (reload && currentGroup.length) {
       installImage(currentItem(), false);
     }
@@ -367,7 +371,7 @@
     renderSerial += 1;
     overlay.hidden = true;
     document.body.classList.remove("lightbox-open");
-    stage.querySelectorAll(".image-lightbox-image").forEach(function (openImage) {
+    mediaViewport.querySelectorAll(".image-lightbox-image").forEach(function (openImage) {
       openImage.remove();
     });
     currentImage = null;
